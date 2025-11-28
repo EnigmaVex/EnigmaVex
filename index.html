@@ -165,14 +165,11 @@
 
         /* ================= 4. NUEVA ESTRUCTURA (GALLERY + CENTRAL BOX) ================= */
         
-        /* -- GRID VISUAL (IMÁGENES PEQUEÑAS ARRIBA) -- */
         .gallery-grid {
             display: grid; gap: 20px;
             margin-bottom: 60px;
         }
-        /* Configuración 4 items */
         .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        /* Configuración 5 items */
         .grid-5 { grid-template-columns: repeat(5, 1fr); }
 
         @media (max-width: 900px) {
@@ -185,7 +182,7 @@
         .mini-card {
             background: var(--dark-card); border: 1px solid rgba(255,255,255,0.05);
             border-radius: 4px; overflow: hidden; opacity: 0; transform: translateY(30px); transition: 0.4s var(--ease);
-            position: relative; perspective: 1000px; aspect-ratio: 1/1; /* Cuadradas */
+            position: relative; perspective: 1000px; aspect-ratio: 1/1; 
         }
         .mini-card.card-appear { opacity: 1; transform: translateY(0); transition: 0.8s var(--ease); }
 
@@ -196,19 +193,36 @@
         }
         .mini-card:hover .mini-flip-box { transform: rotateY(180deg); }
 
+        /* --- ACTUALIZADO: CAMBIO DE LOGICA FRONT/BACK --- */
         .flip-front, .flip-back {
             position: absolute; width: 100%; height: 100%;
             -webkit-backface-visibility: hidden; backface-visibility: hidden;
             border-radius: 2px;
         }
-        .flip-front img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .flip-back {
-            background: #080808; border: 1px solid var(--gold);
-            transform: rotateY(180deg); 
+
+        /* Front es ahora el TEXTO (Lo que se ve primero) */
+        .flip-front {
+            background: #080808; 
+            border: 1px solid rgba(212,175,55,0.4); /* Borde dorado tenue */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background-image: radial-gradient(circle, rgba(212,175,55,0.1), transparent);
         }
-        .text-back { color: var(--gold); font-family: var(--font-head); letter-spacing: 2px; font-size: 0.8rem; }
+
+        /* Back es ahora la IMAGEN (Lo que se ve al girar) */
+        .flip-back {
+            background: #000;
+            transform: rotateY(180deg); 
+        }
+        .flip-back img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        
+        /* Estilo del texto */
+        .text-main-face { 
+            color: var(--gold); 
+            font-family: var(--font-head); 
+            letter-spacing: 2px; 
+            font-size: 0.9rem; 
+            font-weight: 700;
+        }
 
         /* -- CAJA CENTRAL ELEGANTE -- */
         .central-stage {
@@ -223,7 +237,7 @@
             display: flex; align-items: center; justify-content: center;
             background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
             border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 50% 50% 0 0; /* Arco decorativo arriba */
+            border-radius: 50% 50% 0 0;
             border-bottom: none;
             padding: 40px;
         }
@@ -238,11 +252,10 @@
 
         .elegant-box-container:hover .elegant-box-img { transform: scale(1.05); }
 
-        /* -- INFO DEBAJO DE LA CAJA -- */
         .product-details {
             background: rgba(10,10,10,0.9);
             border: 1px solid var(--gold);
-            border-top: 4px solid var(--gold); /* Acento superior */
+            border-top: 4px solid var(--gold);
             padding: 30px; margin-top: -20px;
             position: relative; z-index: 5;
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
@@ -256,7 +269,6 @@
             color: var(--gold); font-size: 1.8rem; font-weight: 700; display: block; margin-bottom: 25px; 
         }
 
-        /* ESTILO BOTON PRINCIPAL (GOLD) */
         .btn-glow {
             width: 100%; max-width: 300px; padding: 18px 0; cursor: pointer;
             background: linear-gradient(90deg, #aa771c, #ffd700, #aa771c); background-size: 200%; 
@@ -267,7 +279,6 @@
         .btn-glow:hover { box-shadow: 0 0 25px rgba(212,175,55,0.7); transform: scale(1.02); }
         @keyframes shimmer { 0% {background-position: 0% center;} 100% {background-position: 200% center;} }
 
-        /* ESTILO BOTON SECUNDARIO */
         .btn-ghost {
             background: transparent; border: 1px solid #444; width: 100%; padding: 14px;
             color: #ccc; margin-top: 10px; text-transform: uppercase; font-size: 0.7rem; 
@@ -363,26 +374,26 @@
             <div class="gallery-grid grid-4">
                 <div class="mini-card">
                     <div class="mini-flip-box">
-                        <div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Img1"></div>
-                        <div class="flip-back"><div class="text-back">VER</div></div>
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://i.pinimg.com/736x/68/61/a9/6861a93dbbbb60bf83b4deee4f4f82b9.jpg" alt="Img1"></div>
                     </div>
                 </div>
                 <div class="mini-card">
                     <div class="mini-flip-box">
-                        <div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Img2"></div>
-                        <div class="flip-back"><div class="text-back">MÁS</div></div>
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://i.pinimg.com/236x/a6/90/4b/a6904b60a3c40d0fd3ce1cf28d51d5af.jpg" alt="Img2"></div>
                     </div>
                 </div>
                 <div class="mini-card">
                     <div class="mini-flip-box">
-                        <div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Img3"></div>
-                        <div class="flip-back"><div class="text-back">DETALLE</div></div>
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://i.pinimg.com/474x/e0/be/e5/e0bee523ffc0a559eb66b4190f9a657b.jpg" alt="Img3"></div>
                     </div>
                 </div>
                 <div class="mini-card">
                     <div class="mini-flip-box">
-                        <div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Img4"></div>
-                        <div class="flip-back"><div class="text-back">LUJO</div></div>
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://i.pinimg.com/236x/c6/3a/14/c63a1442a2e812c1b9e1d8ef72e3c54a.jpg" alt="Img4"></div>
                     </div>
                 </div>
             </div>
@@ -392,7 +403,7 @@
                     <img class="elegant-box-img" src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Caja Principal">
                 </div>
                 <div class="product-details">
-                    <h3 class="p-main-title">Oso Imperial Dorado</h3>
+                    <h3 class="p-main-title">Clásicos</h3>
                     <span class="p-main-price">$45.000</span>
                     <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Dorado')">Ordenar Caja</button>
                 </div>
@@ -408,15 +419,40 @@
             </div>
             
             <div class="gallery-grid grid-5">
-                <div class="mini-card"><div class="mini-flip-box"><div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk1"></div><div class="flip-back"><div class="text-back">GLOW</div></div></div></div>
+                <div class="mini-card">
+                    <div class="mini-flip-box">
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk1"></div>
+                    </div>
+                </div>
                 
-                <div class="mini-card"><div class="mini-flip-box"><div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk2"></div><div class="flip-back"><div class="text-back">TONOS</div></div></div></div>
+                <div class="mini-card">
+                    <div class="mini-flip-box">
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk2"></div>
+                    </div>
+                </div>
 
-                <div class="mini-card"><div class="mini-flip-box"><div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk3"></div><div class="flip-back"><div class="text-back">ARTE</div></div></div></div>
+                <div class="mini-card">
+                    <div class="mini-flip-box">
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk3"></div>
+                    </div>
+                </div>
 
-                <div class="mini-card"><div class="mini-flip-box"><div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk4"></div><div class="flip-back"><div class="text-back">BRILLO</div></div></div></div>
+                <div class="mini-card">
+                    <div class="mini-flip-box">
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk4"></div>
+                    </div>
+                </div>
 
-                <div class="mini-card"><div class="mini-flip-box"><div class="flip-front"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk5"></div><div class="flip-back"><div class="text-back">CHIC</div></div></div></div>
+                <div class="mini-card">
+                    <div class="mini-flip-box">
+                        <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
+                        <div class="flip-back"><img src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Mk5"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="central-stage">
@@ -424,9 +460,9 @@
                     <img class="elegant-box-img" src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Caja Maquillaje">
                 </div>
                 <div class="product-details">
-                    <h3 class="p-main-title">Oso Imperial Dorado</h3>
+                    <h3 class="p-main-title">PREMIUM</h3>
                     <span class="p-main-price">$45.000</span>
-                    <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Maquillaje')">Ordenar Caja</button>
+                    <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Maquillaje')">ENIGMA</button>
                 </div>
             </div>
         </section>
@@ -444,7 +480,7 @@
                     Estamos para asesorarte en tu compra y resolver cualquier duda. Calidad garantizada.
                 </p>
                 <button class="btn-glow" style="max-width:350px;" onclick="whatsapp('Hola, necesito asistencia con un pedido')">Hablar por WhatsApp</button>
-                <button class="btn-ghost" style="max-width:350px; margin:15px auto 0 auto;" onclick="window.open('https://instagram.com/','_blank')">
+                <button class="btn-ghost" style="max-width:350px; margin:15px auto 0 auto;" onclick="window.open('https://www.instagram.com/enig.ma304?igsh=ZXY1eTd0bnB0Zmg=')">
                     <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                     Síguenos en Instagram
                 </button>
