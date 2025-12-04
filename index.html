@@ -149,6 +149,7 @@
         .mobile-nav-overlay.reveal .mob-item:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .mobile-nav-overlay.reveal .mob-item:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .mobile-nav-overlay.reveal .mob-item:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .mobile-nav-overlay.reveal .mob-item:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); } /* NUEVO BOTÓN */
 
         /* ================= 3. SECCIONES Y GENERAL ================= */
         main { padding-top: 140px; width: 90%; max-width: 1300px; margin: 0 auto; padding-bottom: 50px; }
@@ -318,6 +319,54 @@
         .wa-float:hover { transform: scale(1.1); }
         .wa-float svg { width: 34px; height: 34px; fill: #fff; }
 
+        /* ================= 7. GUIA RAPIDA (NUEVO) ================= */
+        #guide-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 9990;
+            display: none; 
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        #guide-overlay.active { display: block; opacity: 1; }
+
+        .guide-step {
+            position: fixed; /* CORREGIDO: Usamos fixed para que flote sobre el contenido */
+            max-width: 350px; width: 90%; /* Mejor responsive */
+            padding: 20px;
+            background: #0a0a0a; border: 2px solid var(--gold); border-radius: 6px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            text-align: center;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0; visibility: hidden;
+            transform: translateY(20px);
+            z-index: 9996;
+        }
+        .guide-step.current { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .guide-step h4 { color: var(--gold); font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 10px; }
+        .guide-step p { font-size: 0.9rem; color: #ddd; margin-bottom: 15px; }
+
+        .guide-actions button {
+            background: var(--gold); color: #000; border: none; padding: 10px 20px;
+            font-weight: 700; cursor: pointer; border-radius: 3px; margin: 0 5px;
+            transition: 0.3s;
+        }
+        .guide-actions button:hover { background: #fff; box-shadow: 0 0 10px var(--gold); }
+        .guide-actions button:disabled { opacity: 0.5; cursor: default; }
+
+        /* Marcador de Elementos */
+        .guide-marker {
+            position: fixed; /* CORREGIDO: Usamos fixed para que se fije en la ventana */
+            border: 3px solid var(--gold); border-radius: 4px;
+            z-index: 9995; pointer-events: none; opacity: 0;
+            animation: pulseGuide 1.5s infinite alternate;
+            transition: all 0.5s var(--ease);
+        }
+        .guide-marker.highlight { opacity: 1; }
+
+        @keyframes pulseGuide { 
+            from { box-shadow: 0 0 0 rgba(212, 175, 55, 0.4); } 
+            to { box-shadow: 0 0 15px rgba(212, 175, 55, 0.8); } 
+        }
+
     </style>
 </head>
 <body>
@@ -351,6 +400,7 @@
             <button class="menu-link active" onclick="switchSection('col-section', this)">Colección</button>
             <button class="menu-link" onclick="switchSection('makeup-section', this)">Maquillaje</button>
             <button class="menu-link" onclick="switchSection('info-section', this)">Info</button>
+            <button class="menu-link" style="color:var(--gold); font-weight:700;" onclick="showGuide()">Guía Rápida ✨</button>
         </nav>
         <div class="hamburger-wrap" onclick="toggleMenu()">
             <div class="line1"></div> <div class="line2"></div> <div class="line3"></div>
@@ -361,17 +411,18 @@
         <button class="mob-item" onclick="switchSection('col-section', null); toggleMenu()">Colección</button>
         <button class="mob-item" onclick="switchSection('makeup-section', null); toggleMenu()">Maquillaje</button>
         <button class="mob-item" onclick="switchSection('info-section', null); toggleMenu()">Info & Soporte</button>
+        <button class="mob-item" style="color:var(--gold);" onclick="showGuide(); toggleMenu()">Guía Rápida ✨</button>
     </div>
 
     <main>
 
         <section id="col-section" class="active-sec">
-            <div class="section-header">
+            <div class="section-header" id="col-header">
                 <h2>Colección Enigma</h2>
                 <p>Descubre el Misterio</p>
             </div>
             
-            <div class="gallery-grid grid-4">
+            <div class="gallery-grid grid-4" id="col-gallery">
                 <div class="mini-card">
                     <div class="mini-flip-box">
                         <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
@@ -398,14 +449,14 @@
                 </div>
             </div>
 
-            <div class="central-stage">
+            <div class="central-stage" id="col-central">
                 <div class="elegant-box-container">
-                    <img class="elegant-box-img" src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Caja Principal">
+                    <img class="elegant-box-img" src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Caja Principal" id="main-box-img-col">
                 </div>
                 <div class="product-details">
                     <h3 class="p-main-title">Clásicos</h3>
                     <span class="p-main-price">$12.999</span>
-                    <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Dorado')">Ordenar Caja</button>
+                    <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Dorado')" id="col-btn-buy">Ordenar Caja</button>
                 </div>
             </div>
 
@@ -418,7 +469,7 @@
                 <p>Tu belleza en una caja</p>
             </div>
             
-            <div class="gallery-grid grid-5">
+            <div class="gallery-grid grid-5" id="makeup-gallery">
                 <div class="mini-card">
                     <div class="mini-flip-box">
                         <div class="flip-front"><div class="text-main-face">ENIGMA</div></div>
@@ -455,20 +506,20 @@
                 </div>
             </div>
 
-            <div class="central-stage">
+            <div class="central-stage" id="makeup-central">
                 <div class="elegant-box-container">
-                    <img class="elegant-box-img" src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Caja Maquillaje">
+                    <img class="elegant-box-img" src="https://scontent-bog2-1.xx.fbcdn.net/v/t39.30808-6/588554107_122269714652244757_6039592121799148836_n.jpg?stp=dst-webp_e15_q70_s720x720_u&efg=eyJ1cmxnZW4iOiJ1cmxnZW5fZnJvbV91cmwifQ&_nc_cid=0&_nc_ad=z-m&_nc_rml=0&_nc_ht=scontent-bog2-1.xx&_nc_cat=102&_nc_ohc=LCLvXZKuZmgQ7kNvwE1xpE9&_nc_gid=dviYBQDvsUjldjw1QGOXrg&ccb=1-7&_nc_sid=833d8c&oh=00_Afgg1PjAY6JF4W5Vs5QB3myOubGYaBMb6qJyI4t8X3kYYg&oe=692D96C4" alt="Caja Maquillaje" id="main-box-img-makeup">
                 </div>
                 <div class="product-details">
                     <h3 class="p-main-title">PREMIUM</h3>
                     <span class="p-main-price">$25.999</span>
-                    <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Maquillaje')">ENIGMA</button>
+                    <button class="btn-glow" onclick="whatsapp('Quiero comprar: Oso Imperial Maquillaje')" id="makeup-btn-buy">ENIGMA</button>
                 </div>
             </div>
         </section>
 
         <section id="info-section">
-            <div class="section-header">
+            <div class="section-header" id="info-header">
                 <h2>Servicio Premium</h2>
                 <p>Soporte y Contacto</p>
             </div>
@@ -479,8 +530,8 @@
                 <p style="color:#bbb; margin-bottom:30px; line-height:1.7;">
                     Estamos para asesorarte en tu compra y resolver cualquier duda. Calidad garantizada.
                 </p>
-                <button class="btn-glow" style="max-width:350px;" onclick="whatsapp('Hola, necesito asistencia con un pedido')">Hablar por WhatsApp</button>
-                <button class="btn-ghost" style="max-width:350px; margin:15px auto 0 auto;" onclick="window.open('https://www.instagram.com/enig.ma304?igsh=ZXY1eTd0bnB0Zmg=')">
+                <button class="btn-glow" style="max-width:350px;" onclick="whatsapp('Hola, necesito asistencia con un pedido')" id="info-btn-wa">Hablar por WhatsApp</button>
+                <button class="btn-ghost" style="max-width:350px; margin:15px auto 0 auto;" onclick="window.open('https://www.instagram.com/enig.ma304?igsh=ZXY1eTd0bnB0Zmg=')" id="info-btn-ig">
                     <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                     Síguenos en Instagram
                 </button>
@@ -500,10 +551,15 @@
 
     </main>
 
-    <a href="#" onclick="whatsapp('Hola Enigma')" class="wa-float" title="Contactar">
+    <a href="#" onclick="whatsapp('Hola Enigma')" class="wa-float" title="Contactar" id="wa-float-btn">
         <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
     </a>
 
+    <div id="guide-overlay">
+        <div id="guide-marker" class="guide-marker"></div>
+        <div id="guide-popup" class="guide-step">
+            </div>
+    </div>
     <script>
         // INTRO
         window.onload = function() {
@@ -538,11 +594,23 @@
         function switchSection(id, btn) {
             document.querySelectorAll('section').forEach(s => s.classList.remove('active-sec'));
             document.getElementById(id).classList.add('active-sec');
-            if(btn) {
+            
+            // Si el botón es nulo, buscar el enlace de escritorio para activarlo visualmente si estamos en desktop
+            if(!btn) {
+                const desktopLinks = document.querySelectorAll('.desktop-nav .menu-link');
+                desktopLinks.forEach(l => l.classList.remove('active'));
+                const targetLink = document.querySelector(`.desktop-nav .menu-link[onclick*="'${id}'"]`);
+                if (targetLink) targetLink.classList.add('active');
+            } else {
                 document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
                 btn.classList.add('active');
             }
-            window.scrollTo({top:0, behavior:'smooth'});
+
+            // No hacer scroll aquí, lo manejará la guía si está activa.
+            if (!document.getElementById('guide-overlay').classList.contains('active')) {
+                window.scrollTo({top:0, behavior:'smooth'});
+            }
+            
             setTimeout(initObservers, 100); 
         }
 
@@ -563,6 +631,156 @@
         // ACTIONS
         function whatsapp(msg) {
             window.open(`https://wa.me/573008556516?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // ================= GUÍA RÁPIDA (CORREGIDA) =================
+        let guideCurrentStepIndex = 0;
+        const guideSteps = [
+            { id: 'step-0', title: '¡Bienvenido a ENIGMA!', text: 'Te guiaré por las principales secciones de esta experiencia de lujo. ¡Empecemos!.', targetId: 'mainNav', placement: 'bottom-center' },
+            { id: 'step-1', title: 'Colección Misteriosa', text: 'Aquí encuentras nuestras Cajas Misteriosas exclusivas. ¡Voltea las tarjetas para ver imágenes!', targetId: 'col-gallery', placement: 'bottom-center' },
+            { id: 'step-2', title: 'Producto Destacado', text: 'Este es el producto destacado de la Colección. Aquí lo puedes ordenar con un click.', targetId: 'col-btn-buy', placement: 'bottom-center' },
+            { id: 'step-3', title: 'Sección Maquillaje', text: 'Presiona el botón "Siguiente" o usa el enlace del menú para cambiar a la galería de maquillaje.', targetId: 'nav-makeup-link', placement: 'bottom-center', action: () => switchSection('makeup-section', document.querySelector('[onclick*="makeup-section"]')) },
+            { id: 'step-4', title: 'Galería Maquillaje', text: 'Esta es la galería de nuestros productos de belleza Premium.', targetId: 'makeup-gallery', placement: 'top-center' },
+            { id: 'step-5', title: 'Contáctanos Directo', text: 'Usa este botón flotante de WhatsApp para contactarnos desde cualquier lugar en la página.', targetId: 'wa-float-btn', placement: 'top-left' },
+            { id: 'step-6', title: 'Fin de la Guía', text: '¡Excelente! Ya conoces la estructura de ENIGMA. Ahora, a descubrir tu próxima caja de lujo.', targetId: 'mainNav', placement: 'bottom-center' }
+        ];
+
+        // Asignar IDs a los enlaces de escritorio para que el targetId funcione
+        document.querySelectorAll('.desktop-nav .menu-link').forEach((btn) => {
+            if (btn.innerText.includes('Colección')) btn.id = 'nav-col-link';
+            if (btn.innerText.includes('Maquillaje')) btn.id = 'nav-makeup-link';
+            if (btn.innerText.includes('Info')) btn.id = 'nav-info-link';
+            if (btn.innerText.includes('Guía')) btn.id = 'nav-guide-link';
+        });
+
+        function showGuide() {
+            guideCurrentStepIndex = 0;
+            document.getElementById('guide-overlay').classList.add('active');
+            // Aseguramos que la primera vista sea la Colección
+            switchSection('col-section', document.getElementById('nav-col-link')); 
+            
+            // Pequeño retraso para que el switchSection termine antes de empezar
+            setTimeout(() => nextStep(), 200); 
+        }
+
+        function hideGuide() {
+            document.getElementById('guide-overlay').classList.remove('active');
+            document.getElementById('guide-marker').classList.remove('highlight');
+            document.getElementById('guide-popup').classList.remove('current');
+            document.body.style.overflow = ''; 
+        }
+
+        function nextStep() {
+            // Ejecutar acción del paso anterior (ej. cambiar sección)
+            if (guideCurrentStepIndex > 0 && guideSteps[guideCurrentStepIndex - 1].action) {
+                // Ejecutar la acción y esperar a que el DOM se actualice antes de mostrar el siguiente paso
+                guideSteps[guideCurrentStepIndex - 1].action();
+                setTimeout(() => showCurrentStep(), 500); 
+            } else {
+                showCurrentStep();
+            }
+        }
+
+        function showCurrentStep() {
+            if (guideCurrentStepIndex >= guideSteps.length) {
+                hideGuide();
+                return;
+            }
+
+            const step = guideSteps[guideCurrentStepIndex];
+            const targetElement = document.getElementById(step.targetId);
+            const popup = document.getElementById('guide-popup');
+            const marker = document.getElementById('guide-marker');
+            const MARGIN = 20; // Margen entre el elemento y el popup
+
+            if (!targetElement) { 
+                console.warn(`Elemento objetivo no encontrado para el paso ${guideCurrentStepIndex}: ${step.targetId}`);
+                guideCurrentStepIndex++;
+                nextStep();
+                return;
+            }
+
+            // 1. Mostrar/Ocultar y Cargar Contenido
+            document.querySelectorAll('.guide-step').forEach(s => s.classList.remove('current'));
+            marker.classList.remove('highlight');
+            
+            popup.innerHTML = `
+                <h4>${step.title}</h4>
+                <p>${step.text}</p>
+                <div class="guide-actions">
+                    <button onclick="hideGuide()">Cerrar</button>
+                    <button onclick="guideCurrentStepIndex++; nextStep()">
+                        ${guideCurrentStepIndex === guideSteps.length - 1 ? '¡Listo!' : 'Siguiente ✨'}
+                    </button>
+                </div>
+            `;
+            
+            // 2. Hacer Scroll al Elemento
+            // Es crucial hacer scroll primero para obtener las coordenadas correctas en la vista.
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // 3. Pequeño retraso para que el scroll termine antes de calcular la posición.
+            setTimeout(() => {
+                const rect = targetElement.getBoundingClientRect();
+
+                // 4. Posicionar el Marcador (Fixed position, usa coordenadas de la vista)
+                marker.style.width = `${rect.width}px`;
+                marker.style.height = `${rect.height}px`;
+                marker.style.top = `${rect.top}px`;
+                marker.style.left = `${rect.left}px`;
+                marker.classList.add('highlight');
+
+                // 5. Posicionar el Popup (Fixed position, usa coordenadas de la vista)
+                let top = 0, left = 0;
+                const popupWidth = popup.offsetWidth; // Obtener el ancho real después de cargar el contenido
+                const popupHeight = popup.offsetHeight;
+
+                // Cálculo de la posición según la ubicación deseada (placement)
+                switch (step.placement) {
+                    case 'bottom-center':
+                        top = rect.bottom + MARGIN;
+                        left = rect.left + (rect.width / 2) - (popupWidth / 2);
+                        break;
+                    case 'top-center':
+                        top = rect.top - popupHeight - MARGIN;
+                        left = rect.left + (rect.width / 2) - (popupWidth / 2);
+                        break;
+                    case 'bottom-right':
+                        top = rect.bottom + MARGIN;
+                        left = rect.right - popupWidth;
+                        break;
+                    case 'top-left':
+                        top = rect.top - popupHeight - MARGIN;
+                        left = rect.left;
+                        break;
+                    default: // Por defecto, centrado en la pantalla si el elemento no es visible
+                        top = (window.innerHeight - popupHeight) / 2;
+                        left = (window.innerWidth - popupWidth) / 2;
+                        break;
+                }
+
+                // Asegurar que el popup no se salga por los bordes (Responsive check)
+                if (left < MARGIN) left = MARGIN;
+                if (left + popupWidth > window.innerWidth - MARGIN) left = window.innerWidth - popupWidth - MARGIN;
+                if (top < MARGIN) top = MARGIN; // Evitar que se salga por arriba
+                if (top + popupHeight > window.innerHeight - MARGIN) top = window.innerHeight - popupHeight - MARGIN;
+                
+                // Si la posición calculada se superpone al elemento, moverla si es posible.
+                if (top < rect.bottom && top + popupHeight > rect.top && left < rect.right && left + popupWidth > rect.left) {
+                    // Si hay superposición, lo movemos a la parte inferior de la ventana, manteniendo el responsive
+                    top = Math.max(MARGIN, window.innerHeight - popupHeight - MARGIN);
+                }
+
+
+                popup.style.top = `${top}px`;
+                popup.style.left = `${left}px`;
+                popup.classList.add('current');
+
+
+                document.body.style.overflow = 'hidden'; 
+            }, 300); // Esperar un poco a que el scroll termine
+            
+            // El incremento del índice se mueve a la función `nextStep`
         }
     </script>
 </body>
